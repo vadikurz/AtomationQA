@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FifthTask.Exceptions;
 using FifthTask.Vehicles;
 
 namespace FifthTask
@@ -15,6 +16,10 @@ namespace FifthTask
 
         public void Add(Vehicle vehicle, string id)
         {
+            if (Vehicles.ContainsKey(id))
+            {
+                throw new AddException("Vehicle with this ID already exists");
+            } 
             Vehicles.Add(id, vehicle);
         }
 
@@ -38,7 +43,7 @@ namespace FifthTask
         {
             if (!Vehicles.ContainsKey(id))
             {
-
+                throw new UpdateAutoException("No such identifier exists");
             }
 
             Vehicles[id] = vehicle;
@@ -48,7 +53,7 @@ namespace FifthTask
         {
             if (!Vehicles.ContainsKey(id))
             {
-
+                throw new RemoveAutoException("No such identifier exists");
             }
 
             Vehicles.Remove(id);
