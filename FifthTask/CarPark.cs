@@ -43,5 +43,15 @@ namespace FifthTask
 
             Vehicles[id] = vehicle;
         }
+
+        public void RemoveAuto(string id)
+        {
+            if (!Vehicles.ContainsKey(id))
+            {
+
+            }
+
+            Vehicles.Remove(id);
+        }
     }
 }
