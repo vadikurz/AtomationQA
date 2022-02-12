@@ -11,5 +11,10 @@ namespace FifthTask
         {
             Vehicles = new Dictionary<string, Vehicle>();
         }
+
+        public void Add(Vehicle vehicle, string id)
+        {
+            Vehicles.Add(id, vehicle);
+        }
     }
 }
