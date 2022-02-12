@@ -33,5 +33,15 @@ namespace FifthTask
 
             return null;
         }
+
+        public void UpdateAuto(string id, Vehicle vehicle)
+        {
+            if (!Vehicles.ContainsKey(id))
+            {
+
+            }
+
+            Vehicles[id] = vehicle;
+        }
     }
 }
