@@ -19,12 +19,13 @@ namespace FifthTask
             if (Vehicles.ContainsKey(id))
             {
                 throw new AddException("Vehicle with this ID already exists");
-            } 
+            }
             Vehicles.Add(id, vehicle);
         }
 
         public Vehicle GetAutoByParameter(string parameter, string value)
         {
+
             foreach (var vehicle in Vehicles.Values)
             {
                 var properties = vehicle.GetType().GetProperties();
@@ -38,6 +39,33 @@ namespace FifthTask
 
             return null;
         }
+
+        public List<Vehicle> GetAutosByParameter(string parameter, string value)
+        {
+            if (!IsParameterExists(parameter))
+            {
+
+            }
+
+            if (!IsValueByParameterExists(parameter, value))
+            {
+
+            }
+
+            return Vehicles.Values.Where(vehicle => vehicle.GetType().GetProperties().Any(property =>
+                    property.Name == parameter && property.GetValue(vehicle)?.ToString() == value)).ToList();
+        }
+
+        private bool IsParameterExists(string parameter) =>
+            Vehicles.Values.Any(vehicle => vehicle.GetType()
+                .GetProperties()
+                .Any(property => property.Name == parameter));
+
+        private bool IsValueByParameterExists(string parameter, string value) =>
+            Vehicles.Values.Any(vehicle => vehicle.GetType()
+                .GetProperties()
+                .Any(property =>
+                    property.Name == parameter && property.GetValue(vehicle)?.ToString() == value));
 
         public void UpdateAuto(string id, Vehicle vehicle)
         {
