@@ -25,19 +25,13 @@ namespace FifthTask
 
         public Vehicle GetAutoByParameter(string parameter, string value)
         {
-
-            foreach (var vehicle in Vehicles.Values)
+            var vehicles = GetAutosByParameter(parameter, value);
+            if (vehicles.Count != 1)
             {
-                var properties = vehicle.GetType().GetProperties();
 
-                if (properties.Any(property =>
-                    property.Name == parameter && property.GetValue(vehicle)?.ToString() == value))
-                {
-                    return vehicle;
-                }
             }
 
-            return null;
+            return vehicles.First();
         }
 
         public List<Vehicle> GetAutosByParameter(string parameter, string value)
