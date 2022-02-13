@@ -28,7 +28,7 @@ namespace FifthTask
             var vehicles = GetAutosByParameter(parameter, value);
             if (vehicles.Count != 1)
             {
-
+                throw new AmbiguousMatchException("More than one match found");
             }
 
             return vehicles.First();
@@ -38,28 +38,17 @@ namespace FifthTask
         {
             if (!IsParameterExists(parameter))
             {
-
+                throw new NotFoundParameterException("Parameter not found");
             }
 
             if (!IsValueByParameterExists(parameter, value))
             {
-
+                throw new NotFoundValueByParameterException("No matches found");
             }
 
             return Vehicles.Values.Where(vehicle => vehicle.GetType().GetProperties().Any(property =>
                     property.Name == parameter && property.GetValue(vehicle)?.ToString() == value)).ToList();
         }
-
-        private bool IsParameterExists(string parameter) =>
-            Vehicles.Values.Any(vehicle => vehicle.GetType()
-                .GetProperties()
-                .Any(property => property.Name == parameter));
-
-        private bool IsValueByParameterExists(string parameter, string value) =>
-            Vehicles.Values.Any(vehicle => vehicle.GetType()
-                .GetProperties()
-                .Any(property =>
-                    property.Name == parameter && property.GetValue(vehicle)?.ToString() == value));
 
         public void UpdateAuto(string id, Vehicle vehicle)
         {
@@ -80,5 +69,16 @@ namespace FifthTask
 
             Vehicles.Remove(id);
         }
+        
+        private bool IsParameterExists(string parameter) =>
+            Vehicles.Values.Any(vehicle => vehicle.GetType()
+                .GetProperties()
+                .Any(property => property.Name == parameter));
+
+        private bool IsValueByParameterExists(string parameter, string value) =>
+            Vehicles.Values.Any(vehicle => vehicle.GetType()
+                .GetProperties()
+                .Any(property =>
+                    property.Name == parameter && property.GetValue(vehicle)?.ToString() == value));
     }
 }
