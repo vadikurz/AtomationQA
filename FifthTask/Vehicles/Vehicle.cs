@@ -25,5 +25,7 @@ namespace FifthTask.Vehicles
             Transmission = transmission;
             Chassis = chassis;
         }
+
+        public override string ToString() => $"Engine:\n{Engine}\nTransmission:\n{Transmission}\nChassis:\n{Chassis}\n";
     }
 }

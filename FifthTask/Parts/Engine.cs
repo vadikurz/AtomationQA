@@ -25,6 +25,6 @@ namespace FifthTask.Parts
             SerialNumber = serialNumber;
         }
 
-        public override string ToString() => $"{Power}\n{Capacity}\n{Type}\n{SerialNumber}\n";
+        public override string ToString() => $"Power: {Power}\nSerial number: {SerialNumber}\nCapacity: {Capacity}\nType: {Type}";
     }
 }

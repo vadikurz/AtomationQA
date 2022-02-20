@@ -20,6 +20,6 @@ namespace FifthTask.Vehicles
             LiftingCapacity = liftingCapacity;
         }
 
-        public override string ToString() => $"{LiftingCapacity}\n{Engine}\n{Transmission}\n{Chassis}\n";
+        public override string ToString() => $"Truck:\n{base.ToString()}Lifting capacity: {LiftingCapacity}\n";
     }
 }

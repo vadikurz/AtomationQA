@@ -21,6 +21,6 @@ namespace FifthTask.Parts
             Manufacturer = manufacturer;
         }
 
-        public override string ToString() => $"{Type}\n{NumberOfGears}\n{Manufacturer}\n";
+        public override string ToString() => $"Type: {Type}\nManufacturer: {Manufacturer}\nNumber of gears: {NumberOfGears}";
     }
 }

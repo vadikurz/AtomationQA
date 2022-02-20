@@ -20,6 +20,6 @@ namespace FifthTask.Vehicles
             BodyType = bodyType;
         }
 
-        public override string ToString() => $"{BodyType}\n{Engine}\n{Transmission}\n{Chassis}\n";
+        public override string ToString() => $"Car:\n{base.ToString()}Body type: {BodyType}\n";
     }
 }

@@ -21,6 +21,6 @@ namespace FifthTask.Parts
             PermissibleLoad = permissibleLoad;
         }
 
-        public override string ToString() => $"{NumberOfWheels}\n{SerialNumber}\n{PermissibleLoad}\n";
+        public override string ToString() => $"Number of wheels: {NumberOfWheels}\nSerial number: {SerialNumber}\nPermissible load: {PermissibleLoad}";
     }
 }
