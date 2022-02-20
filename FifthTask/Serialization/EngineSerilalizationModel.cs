@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using FifthTask.Parts;
 
 namespace FifthTask.Serialization
 {

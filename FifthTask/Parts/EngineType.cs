@@ -1,4 +1,4 @@
-﻿namespace FifthTask
+﻿namespace FifthTask.Parts
 {
     public enum EngineType
     {

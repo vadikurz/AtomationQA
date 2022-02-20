@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FifthTask
+namespace FifthTask.Parts
 {
     [DataContract]
     public class Transmission
