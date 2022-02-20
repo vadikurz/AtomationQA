@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using FifthTask.Parts;
 
 namespace FifthTask.Vehicles
 {
-    [Serializable]
+    [DataContract]
     public class Scooter : Vehicle
     {
-        private Scooter(){}
-
-        public ushort MaxSpeed { get; }
+        [DataMember]
+        public ushort MaxSpeed { get; private set; }
 
         public Scooter(Engine engine, Transmission transmission, Chassis chassis, ushort maxSpeed) : base(engine, transmission, chassis)
         {

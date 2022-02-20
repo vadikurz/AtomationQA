@@ -1,14 +1,18 @@
-﻿namespace FifthTask
+﻿using System.Runtime.Serialization;
+
+namespace FifthTask
 {
+    [DataContract]
     public class Chassis
     {
-        public ushort NumberOfWheels { get; set; }
+        [DataMember]
+        public ushort NumberOfWheels { get; private set; }
 
-        public string SerialNumber { get; set; }
+        [DataMember]
+        public string SerialNumber { get; private set; }
 
-        public ushort PermissibleLoad { get; set; }
-
-        private Chassis(){}
+        [DataMember]
+        public ushort PermissibleLoad { get; private set; }
 
         public Chassis(ushort numberOfWheels, string serialNumber, ushort permissibleLoad)
         {

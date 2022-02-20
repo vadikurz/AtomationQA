@@ -1,16 +1,21 @@
-﻿namespace FifthTask.Parts
+﻿using System.Runtime.Serialization;
+
+namespace FifthTask.Parts
 {
+    [DataContract]
     public class Engine
     {
-        public int Power { get; set; }
+        [DataMember]
+        public int Power { get; private set; }
 
-        public double Capacity { get; set; }
+        [DataMember]
+        public double Capacity { get; private set; }
 
-        public EngineType Type { get; set; }
+        [DataMember]
+        public EngineType Type { get; private set; }
 
-        public string SerialNumber { get; set; }
-
-        private Engine(){}
+        [DataMember]
+        public string SerialNumber { get; private set; }
 
         public Engine(int power, double capacity, EngineType type, string serialNumber)
         {

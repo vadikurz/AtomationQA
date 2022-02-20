@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using FifthTask.Parts;
 
 namespace FifthTask.Vehicles
 {
-    [Serializable]
+    [DataContract]
     public class Bus : Vehicle
     {
-        public ushort NumberOfSeats { get; set; }
-
-        private Bus(){}
+        [DataMember]
+        public ushort NumberOfSeats { get; private set; }
 
         public Bus(Engine engine, Transmission transmission, Chassis chassis, ushort numberOfSeats) : base(engine, transmission, chassis)
         {

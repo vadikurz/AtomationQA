@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace FifthTask.Serialization
 {
-    [Serializable]
-    [XmlType("GroupedByTransmissionType")]
+    [DataContract(Name = "GroupedByTransmissionType")]
     public class GroupSerializationModel<TKey, TElement>
     {
-        public TKey Key { get; set; }
+        [DataMember]
+        public TKey Key { get; private set; }
 
-        public List<TElement> Elements { get; set; }
+        [DataMember]
+        public List<TElement> Elements { get; private set; }
 
         private GroupSerializationModel() { }
 

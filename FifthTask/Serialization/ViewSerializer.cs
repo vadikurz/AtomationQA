@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace FifthTask.Serialization
 {
@@ -13,9 +13,9 @@ namespace FifthTask.Serialization
         public void Execute(T data)
         {
             var view = View.Invoke(data);
-            XmlSerializer serializer = new XmlSerializer(view.GetType());
-            using FileStream fileStream = new FileStream(Path, FileMode.OpenOrCreate);
-            serializer.Serialize(fileStream, view);
+            var serializer = new DataContractSerializer(view.GetType());
+            using var xmlWriter = XmlWriter.Create(Path, new XmlWriterSettings { Indent = true });
+            serializer.WriteObject(xmlWriter, view);
         }
     }
 }

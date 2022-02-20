@@ -1,15 +1,18 @@
-﻿using System;
+﻿using System.Runtime.Serialization;
 
 namespace FifthTask.Serialization
 {
-    [Serializable]
+    [DataContract]
     public class EngineSerializationModel
     {
-        public int Power { get; set; }
+        [DataMember]
+        public int Power { get; private set; }
 
-        public EngineType Type { get; set; }
+        [DataMember]
+        public EngineType Type { get; private set; }
 
-        public string SerialNumber { get; set; }
+        [DataMember]
+        public string SerialNumber { get; private set; }
 
         private EngineSerializationModel() { }
 

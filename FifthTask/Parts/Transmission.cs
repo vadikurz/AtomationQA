@@ -1,14 +1,18 @@
-﻿namespace FifthTask
+﻿using System.Runtime.Serialization;
+
+namespace FifthTask
 {
+    [DataContract]
     public class Transmission
     {
-        public TransmissionType Type { get; set; }
+        [DataMember]
+        public TransmissionType Type { get; private set; }
 
-        public ushort NumberOfGears { get; set; }
+        [DataMember]
+        public ushort NumberOfGears { get; private set; }
 
-        public string Manufacturer { get; set; }
-
-        private Transmission(){}
+        [DataMember]
+        public string Manufacturer { get; private set; }
 
         public Transmission(TransmissionType type, ushort numberOfGears, string manufacturer)
         {

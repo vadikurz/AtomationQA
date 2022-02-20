@@ -1,23 +1,23 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Runtime.Serialization;
 using FifthTask.Parts;
 
 namespace FifthTask.Vehicles
 {
-    [Serializable]
-    [XmlInclude(typeof(Bus))]
-    [XmlInclude(typeof(Car))]
-    [XmlInclude(typeof(Scooter))]
-    [XmlInclude(typeof(Truck))]
+    [DataContract]
+    [KnownType(typeof(Bus))]
+    [KnownType(typeof(Car))]
+    [KnownType(typeof(Scooter))]
+    [KnownType(typeof(Truck))]
     public abstract class Vehicle
     {
-        public Engine Engine { get; set; }
+        [DataMember]
+        public Engine Engine { get; private set; }
 
-        public Transmission Transmission { get; set; }
+        [DataMember]
+        public Transmission Transmission { get; private set; }
 
-        public Chassis Chassis { get; set; }
-
-        public Vehicle() {}
+        [DataMember]
+        public Chassis Chassis { get; private set; }
 
         protected Vehicle(Engine engine, Transmission transmission, Chassis chassis)
         {
