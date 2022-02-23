@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using FifthTask.Exceptions;
 using FifthTask.Parts;
 
 namespace FifthTask.Vehicles
@@ -14,7 +14,7 @@ namespace FifthTask.Vehicles
         {
             if (chassis.NumberOfWheels < 4)
             {
-                throw new ArgumentOutOfRangeException("A car cannot have less than 4 wheels.");
+                throw new IncorrectValueException("A car cannot have less than 4 wheels.");
             }
 
             BodyType = bodyType;

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using FifthTask.Exceptions;
 using FifthTask.Parts;
 
 namespace FifthTask.Vehicles
@@ -7,6 +7,8 @@ namespace FifthTask.Vehicles
     [DataContract]
     public class Bus : Vehicle
     {
+        public const ushort MaximumNumberOfSeats = 60;
+
         [DataMember]
         public ushort NumberOfSeats { get; private set; }
 
@@ -14,7 +16,12 @@ namespace FifthTask.Vehicles
         {
             if (chassis.NumberOfWheels < 4)
             {
-                throw new ArgumentOutOfRangeException("A bus cannot have less than 4 wheels.");
+                throw new IncorrectValueException("A bus cannot have less than 4 wheels.");
+            }
+
+            if (numberOfSeats > MaximumNumberOfSeats)
+            {
+                throw new IncorrectValueException("A bus cannot have more than 60 seats.");
             }
 
             NumberOfSeats = numberOfSeats;

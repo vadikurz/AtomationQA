@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using FifthTask.Exceptions;
 using FifthTask.Parts;
 
 namespace FifthTask.Vehicles
@@ -7,6 +7,8 @@ namespace FifthTask.Vehicles
     [DataContract]
     public class Scooter : Vehicle
     {
+        public const ushort MaximumSpeed = 90; 
+
         [DataMember]
         public ushort MaxSpeed { get; private set; }
 
@@ -14,7 +16,12 @@ namespace FifthTask.Vehicles
         {
             if (chassis.NumberOfWheels < 2 || chassis.NumberOfWheels > 3)
             {
-                throw new ArgumentOutOfRangeException("The number of wheels on the scooter can be from 2 before 3");
+                throw new IncorrectValueException("The number of wheels on the scooter can be from 2 before 3");
+            }
+
+            if (maxSpeed > MaximumSpeed)
+            {
+                throw new IncorrectValueException("The speed of the scooter cannot be more than 90 km/h");
             }
 
             MaxSpeed = maxSpeed;
