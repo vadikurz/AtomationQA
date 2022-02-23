@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FifthTask.Exceptions;
 using FifthTask.Vehicles;
@@ -14,12 +15,24 @@ namespace FifthTask
             Vehicles = new Dictionary<string, Vehicle>();
         }
 
+        public string GenerateID()
+        {
+            var random = new Random();
+            var lowerLimit = 0;
+            var upperLimit = 9;
+
+            return $"{random.Next(lowerLimit, upperLimit)}" +
+                   $"{random.Next(lowerLimit, upperLimit)}" +
+                   $"{random.Next(lowerLimit, upperLimit)}";
+        }
+
         public void Add(Vehicle vehicle, string id)
         {
             if (Vehicles.ContainsKey(id))
             {
                 throw new AddException("Vehicle with this ID already exists");
             }
+
             Vehicles.Add(id, vehicle);
         }
 
