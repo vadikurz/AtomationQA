@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FifthTask.Exceptions;
 using FifthTask.Vehicles;
@@ -13,17 +12,6 @@ namespace FifthTask
         public CarPark()
         {
             Vehicles = new Dictionary<string, Vehicle>();
-        }
-
-        public string GenerateID()
-        {
-            var random = new Random();
-            var lowerLimit = 0;
-            var upperLimit = 9;
-
-            return $"{random.Next(lowerLimit, upperLimit)}" +
-                   $"{random.Next(lowerLimit, upperLimit)}" +
-                   $"{random.Next(lowerLimit, upperLimit)}";
         }
 
         public void Add(Vehicle vehicle, string id)
@@ -60,7 +48,7 @@ namespace FifthTask
             }
 
             return Vehicles.Values.Where(vehicle => vehicle.GetType().GetProperties().Any(property =>
-                    property.Name == parameter && property.GetValue(vehicle)?.ToString() == value)).ToList();
+                    property.Name.ToLower() == parameter.ToLower() && property.GetValue(vehicle)?.ToString()?.ToLower() == value.ToLower())).ToList();
         }
 
         public void UpdateAuto(string id, Vehicle vehicle)
@@ -86,12 +74,12 @@ namespace FifthTask
         private bool IsParameterExists(string parameter) =>
             Vehicles.Values.Any(vehicle => vehicle.GetType()
                 .GetProperties()
-                .Any(property => property.Name == parameter));
+                .Any(property => property.Name.ToLower() == parameter.ToLower()));
 
         private bool IsValueByParameterExists(string parameter, string value) =>
             Vehicles.Values.Any(vehicle => vehicle.GetType()
                 .GetProperties()
                 .Any(property =>
-                    property.Name == parameter && property.GetValue(vehicle)?.ToString() == value));
+                    property.Name.ToLower() == parameter.ToLower() && property.GetValue(vehicle)?.ToString()?.ToLower() == value.ToLower()));
     }
 }
