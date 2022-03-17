@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FifthTask.Exceptions;
 using FifthTask.Extensions;
 using FifthTask.Parts;
 using FifthTask.Serialization;
@@ -81,8 +80,7 @@ namespace FifthTask
             try
             {
                 var carPark = new CarPark();
-                var vehicles = CreateVehicles();
-
+               
                 var car = new Car
                 (
                     new Engine(300, 3, EngineType.Diesel, "1234567v"),
@@ -108,32 +106,14 @@ namespace FifthTask
 
                 carPark.RemoveAuto("124");
 
+                var vehicles = CreateVehicles();
+
                 var viewSerializers = CreateViewSerializers();
 
                 foreach (var serializer in viewSerializers)
                 {
                     serializer.Execute(vehicles);
                 }
-            }
-            catch (InitializationException exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            catch (AddException exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            catch (GetAutoByParameterException exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            catch (UpdateAutoException exception)
-            {
-                Console.WriteLine(exception);
-            }
-            catch (RemoveAutoException exception)
-            {
-                Console.WriteLine(exception);
             }
             catch (Exception exception)
             {
