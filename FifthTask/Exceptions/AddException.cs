@@ -2,11 +2,15 @@
 
 namespace FifthTask.Exceptions
 {
-    public class AddException : ArgumentException
+    public class AddException : Exception
     {
-        public AddException(string message) : base(message)
-        {
+        public AddException()
+        { }
 
-        }
+        public AddException(string message) : base(message)
+        { }
+
+        public AddException(string message, Exception innerException) : base(message, innerException)
+        { }
     }
 }

@@ -2,11 +2,15 @@
 
 namespace FifthTask.Exceptions
 {
-    public class GetAutoByParameterException : ArgumentException
+    public class GetAutoByParameterException : Exception
     {
-        public GetAutoByParameterException(string message) : base(message)
-        {
+        public GetAutoByParameterException()
+        { }
 
-        }
+        public GetAutoByParameterException(string message) : base(message)
+        { }
+
+        public GetAutoByParameterException(string message, Exception innerException) : base(message, innerException)
+        { }
     }
 }
