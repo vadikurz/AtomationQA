@@ -1,3 +1,4 @@
+using System;
 using FifthTask;
 using FifthTask.Exceptions;
 using FifthTask.Parts;
@@ -113,6 +114,20 @@ namespace ExceptionTaskTests
             defaultCarPark.Add(defaultCar, "123");
 
             Assert.ThrowsException<UpdateAutoException>(() => defaultCarPark.UpdateAuto(id, defaultScooter));
+        }
+
+        [TestMethod]
+        [DataRow(5,1000)]
+        [DataRow(10, 220)]
+        public void InitializeAutoShouldThrowIncorrectValueException(int firstParameter, int secondParameter)
+        {
+            Assert.ThrowsException<IncorrectValueException>(() => new Bus
+            (
+                new Engine(155, 2, EngineType.Electric, "v21r332502"),
+                new Transmission(TransmissionType.Manual, 8, "ZF"),
+                new Chassis(Convert.ToUInt16(firstParameter), "004522vr34", 2000),
+                numberOfSeats: Convert.ToUInt16(secondParameter)
+            ));
         }
     }
 }
