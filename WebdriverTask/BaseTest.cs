@@ -17,6 +17,12 @@ public abstract class BaseTest
     [TearDown]
     protected void DoAfterEach()
     {
+        webDriver.Manage().Cookies.DeleteAllCookies();
+    }
+
+    [OneTimeTearDown]
+    protected void DoAfterAllTests()
+    {
         webDriver.Quit();
     }
 }
