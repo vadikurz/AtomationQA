@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using WebdriverTask.Exceptions;
 using WebdriverTask.PageObjects;
 
 namespace WebdriverTask
@@ -11,9 +12,30 @@ namespace WebdriverTask
         {
             var mainMenuPage = new MainMenuPage(webDriver);
 
-            var actualLogin = mainMenuPage.SignIn().Login(UserData.Login, UserData.Password).UserLogin();
+            var actualLogin = mainMenuPage.SignIn().Login(UserCredentials.Login, UserCredentials.Password).UserLogin();
 
-            Assert.AreEqual(UserData.Login, actualLogin);
+            Assert.AreEqual(UserCredentials.Login, actualLogin);
+        }
+        
+        [TestCase("abcabdcabc")]
+        [TestCase("abcabdcabc@mail")]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void SiqnInInvalidLoginNegativeTest(string login)
+        {
+            var mainMenuPage = new MainMenuPage(webDriver);
+
+            Assert.Throws<InvalidUserLoginException>(() => mainMenuPage.SignIn().Login(login, UserCredentials.Password));
+        }
+        
+        [TestCase("aaa")]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void SignInInvalidPasswordNegativeTest(string password)
+        {
+            var mainMenuPage = new MainMenuPage(webDriver);
+            
+            Assert.Throws<InvalidUserPasswordException>(() => mainMenuPage.SignIn().Login(UserCredentials.Login, password));
         }
     }
 }
