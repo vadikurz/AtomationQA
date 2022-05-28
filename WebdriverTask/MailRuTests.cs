@@ -12,9 +12,9 @@ namespace WebdriverTask
         {
             var mainMenuPage = new MainMenuPage(webDriver);
 
-            var actualLogin = mainMenuPage.SignIn().Login(UserCredentials.Login, UserCredentials.Password).UserLogin();
+            var actualLogin = mainMenuPage.SignIn().Login(UserCredentials.FirstLogin, UserCredentials.Password).UserLogin();
 
-            Assert.AreEqual(UserCredentials.Login, actualLogin);
+            Assert.AreEqual(UserCredentials.FirstLogin, actualLogin);
         }
         
         [TestCase("abcabdcabc")]
@@ -35,7 +35,7 @@ namespace WebdriverTask
         {
             var mainMenuPage = new MainMenuPage(webDriver);
             
-            Assert.Throws<InvalidUserPasswordException>(() => mainMenuPage.SignIn().Login(UserCredentials.Login, password));
+            Assert.Throws<InvalidUserPasswordException>(() => mainMenuPage.SignIn().Login(UserCredentials.FirstLogin, password));
         }
     }
 }
