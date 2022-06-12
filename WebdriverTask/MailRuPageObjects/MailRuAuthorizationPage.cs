@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using WebdriverTask.Exceptions;
 
-namespace WebdriverTask.PageObjects;
+namespace WebdriverTask.MailRuPageObjects;
 
-public class AuthorizationPage
+public class MailRuAuthorizationPage
 {
     private IWebDriver webDriver;
 
@@ -16,40 +15,33 @@ public class AuthorizationPage
     private readonly By passwordInput = By.XPath("//input[@name = 'password']");
     private readonly By submitButton = By.XPath("//button[@data-test-id = 'submit-button']");
     private readonly By loginFormFrame = By.XPath("//iframe[contains(@src, 'mail.ru/login')]");
+    private readonly By invalidCredentialsMessageElement = By.XPath("//div[@data-test-id = 'error-footer-text']");
 
-    private readonly string invalidCredentialsMessageElement = "data-test-id=\"error-footer-text\"";
-    
-
-
-    public AuthorizationPage(IWebDriver webDriver)
+    public MailRuAuthorizationPage(IWebDriver webDriver)
     {
         this.webDriver = webDriver;
     }
 
-    public MailBoxPage Login(string login, string password)
+    public MailRuMailBoxPage Login(string login, string password)
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
-        
+
         EnterLogin(login, wait);
-        
         EnterPassword(password, wait);
-        
-        return new MailBoxPage(webDriver);
+
+        return new MailRuMailBoxPage(webDriver);
     }
 
     private void EnterLogin(string login, WebDriverWait wait)
     {
         webDriver.SwitchTo().Frame(webDriver.FindElement(loginFormFrame));
-        
+
         wait.Until(ExpectedConditions.ElementIsVisible(loginInput));
 
         webDriver.FindElement(loginInput).SendKeys(login);
-        
         webDriver.FindElement(continueButon).Click();
 
-        Task.Delay(TimeSpan.FromSeconds(2)).Wait();
-
-        if (CheckPresenceInvalidLoginMessageElement)
+        if (CheckPresenceInvalidCredentialsMessage())
         {
             throw new InvalidUserLoginException("Invalid login");
         }
@@ -60,16 +52,25 @@ public class AuthorizationPage
         wait.Until(ExpectedConditions.ElementIsVisible(passwordInput));
 
         webDriver.FindElement(passwordInput).SendKeys(password);
-        
         webDriver.FindElement(submitButton).Click();
-        
-        Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-        
-        if (CheckPresenceInvalidLoginMessageElement)
+
+        if (CheckPresenceInvalidCredentialsMessage())
         {
             throw new InvalidUserPasswordException("Invalid password");
         }
     }
 
-    public bool CheckPresenceInvalidLoginMessageElement => webDriver.PageSource.Contains(invalidCredentialsMessageElement);
+    private bool CheckPresenceInvalidCredentialsMessage()
+    {
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
+        try
+        {
+            wait.Until(ExpectedConditions.ElementIsVisible(invalidCredentialsMessageElement));
+            return true;
+        }
+        catch (WebDriverTimeoutException)
+        {
+            return false;
+        }
+    }
 }
