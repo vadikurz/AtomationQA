@@ -12,6 +12,7 @@ public class MailRuNewEmailPage
     private readonly By textInput = By.XPath("//div[contains(@class, 'editable-container')]//br");
     private readonly By recipientInput = By.XPath("//div[contains(@class, 'contactsContainer')]//input");
     private readonly By sendButton = By.XPath("//button[@data-test-id = 'send']");
+    private readonly By closeUndoWindowButton = By.XPath("//span[@title = 'Закрыть']");
 
     public MailRuNewEmailPage(IWebDriver webDriver)
     {
@@ -27,7 +28,18 @@ public class MailRuNewEmailPage
         webDriver.FindElement(recipientInput).SendKeys(recipient);
         webDriver.FindElement(textInput).SendKeys(text);
         webDriver.FindElement(sendButton).Click();
+        
+        CloseUndoSendWindow();
 
         return new MailRuMailBoxPage(webDriver);
+    }
+
+    private void CloseUndoSendWindow()
+    {
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+
+        wait.Until(ExpectedConditions.ElementIsVisible(closeUndoWindowButton));
+        
+        webDriver.FindElement(closeUndoWindowButton).Click();
     }
 }
