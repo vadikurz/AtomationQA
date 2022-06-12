@@ -1,23 +1,23 @@
 ﻿using OpenQA.Selenium;
 
-namespace WebdriverTask.PageObjects
+namespace WebdriverTask.MailRuPageObjects
 {
-    public class MainMenuPage
+    public class MailRuMainMenuPage
     {
         private IWebDriver webDriver;
 
         private readonly By signInButton = By.XPath("//div[@id = 'mailbox']//button");
 
-        public MainMenuPage(IWebDriver webDriver)
+        public MailRuMainMenuPage(IWebDriver webDriver)
         {
             this.webDriver = webDriver;
         }
 
-        public AuthorizationPage SignIn()
+        public MailRuAuthorizationPage SignIn()
         {
             webDriver.FindElement(signInButton).Click();
 
-            return new AuthorizationPage(webDriver);
+            return new MailRuAuthorizationPage(webDriver);
         }
     }
 }
