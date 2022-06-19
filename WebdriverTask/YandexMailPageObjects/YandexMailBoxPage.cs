@@ -14,6 +14,11 @@ public class YandexMailBoxPage
     private readonly By allMessages = By.XPath("//div[contains(@class, 'mail-MessagesList')]");
     private readonly By messageContainer = By.XPath("//div[contains(@class, 'MessageBody')]");
     
+    private readonly By newEmailButton = By.XPath("//a[@href = '#compose']");
+    private readonly By recipientInput = By.XPath("//div[@class = 'ComposeRecipients-TopRow']//div[@class = 'composeYabbles']");
+    private readonly By textInput = By.XPath("//div[contains(@placeholder,'Напишите')]/div");
+    private readonly By sendButton = By.XPath("//div[contains(@class,'ComposeSendButton')]/button");
+    
     public YandexMailBoxPage(IWebDriver webDriver)
     {
         this.webDriver = webDriver;
@@ -51,5 +56,26 @@ public class YandexMailBoxPage
         FindNewMessageBySender(sender).Click();
 
         return MessageText();
+    }
+
+    public void SendEmail(string recipient, string message)
+    {
+        EnterNewEmailButton();
+        
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+        wait.Until(ExpectedConditions.ElementIsVisible(recipientInput));
+        
+        webDriver.FindElement(recipientInput).SendKeys(recipient);
+        webDriver.FindElement(textInput).SendKeys(message);
+        
+        webDriver.FindElement(sendButton).Click();
+    }
+
+    private void EnterNewEmailButton()
+    {
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
+        wait.Until(ExpectedConditions.ElementIsVisible(newEmailButton));
+        
+        webDriver.FindElement(newEmailButton).Click();
     }
 }
