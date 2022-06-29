@@ -11,18 +11,18 @@ public abstract class BaseTest
     [OneTimeSetUp]
     protected void DoBeforeAllTests()
     {
-        webDriver = new ChromeDriver();
+        
     }
     
     [TearDown]
     protected void DoAfterEach()
     {
-        webDriver.Manage().Cookies.DeleteAllCookies();
+        webDriver.Quit();
     }
 
     [OneTimeTearDown]
     protected void DoAfterAllTests()
     {
-        webDriver.Quit();
+        
     }
 }
