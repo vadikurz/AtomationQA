@@ -12,7 +12,7 @@ public class MailRuMailBoxPage
 
     private readonly By sideBarButton = By.XPath("//div[@data-testid = 'whiteline-account']");
     private readonly By NewEmailButton = By.XPath("//span[@class = 'compose-button__wrapper']");
-    private readonly By messages = By.XPath("//div/a[contains(@href,'/inbox/')]");
+    private readonly By messagesAfterFiltering = By.XPath("//div/a[contains(@href,'/search/inbox/')]");
     private readonly By searchButton = By.XPath("//div[@class = 'search-panel__right-col']");
     private readonly By searchInput = By.XPath("//input[contains(@class,'mail-operands')]");
     private readonly By findButton = By.XPath("//span[text() = 'Найти']");
@@ -20,6 +20,7 @@ public class MailRuMailBoxPage
     private readonly By personalDataButton = By.XPath("//div[text()='Личные данные']");
     private readonly By nickNameInput = By.XPath("//input[@id = 'nickname']");
     private readonly By saveButton = By.XPath("//button[@data-test-id = 'save-button']");
+    private readonly By searchInSpamAndTrashFoldersButton = By.XPath("//div[@class='list-letter-preview-action']");
    
     public MailRuMailBoxPage(IWebDriver webDriver)
     {
@@ -49,13 +50,16 @@ public class MailRuMailBoxPage
     private IWebElement FindNewMessageBySender(string sender)
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(7));
-        wait.Until(ExpectedConditions.ElementToBeClickable(searchButton)).Click();
         
+        wait.Until(ExpectedConditions.ElementToBeClickable(searchButton)).Click();
         wait.Until(ExpectedConditions.ElementIsVisible(searchInput)).SendKeys(sender);
+        
         webDriver.FindElement(findButton).Click();
-
-        wait.Until(ExpectedConditions.ElementIsVisible(messages));
-        return webDriver.FindElements(messages).First();
+        
+        wait.Until(ExpectedConditions.ElementIsVisible(searchInSpamAndTrashFoldersButton));
+        wait.Until(ExpectedConditions.ElementIsVisible(messagesAfterFiltering));
+        
+        return webDriver.FindElements(messagesAfterFiltering).First();
     }
 
     public string ReadMessage(string sender)
