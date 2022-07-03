@@ -18,6 +18,7 @@ public class YandexMailBoxPage
     private readonly By recipientInput = By.XPath("//div[@class = 'ComposeRecipients-TopRow']//div[@class = 'composeYabbles']");
     private readonly By textInput = By.XPath("//div[contains(@placeholder,'Напишите')]/div");
     private readonly By sendButton = By.XPath("//div[contains(@class,'ComposeSendButton')]/button");
+    private readonly By messageDoneScreen = By.XPath("//div[@class = 'ComposeDoneScreen-Wrapper']");
     
     public YandexMailBoxPage(IWebDriver webDriver)
     {
@@ -69,6 +70,7 @@ public class YandexMailBoxPage
         webDriver.FindElement(textInput).SendKeys(message);
         
         webDriver.FindElement(sendButton).Click();
+        wait.Until(ExpectedConditions.ElementIsVisible(messageDoneScreen));
     }
 
     private void EnterNewEmailButton()
