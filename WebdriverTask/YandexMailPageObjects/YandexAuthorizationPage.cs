@@ -25,9 +25,8 @@ public class YandexAuthorizationPage
         webDriver.FindElement(loginInput).SendKeys(login);
         webDriver.FindElement(signInSubmitButton).Click();
 
-        wait.Until(ExpectedConditions.ElementIsVisible(passwordInput));
-        
-        webDriver.FindElement(passwordInput).SendKeys(password);
+        wait.Until(ExpectedConditions.ElementIsVisible(passwordInput)).SendKeys(password);
+
         webDriver.FindElement(signInSubmitButton).Click();
 
         return new YandexMailBoxPage(webDriver);

@@ -31,18 +31,14 @@ public class MailRuMailBoxPage
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
 
-        wait.Until(ExpectedConditions.ElementIsVisible(sideBarButton));
-
-        return webDriver.FindElement(sideBarButton).Text;
+        return wait.Until(ExpectedConditions.ElementIsVisible(sideBarButton)).Text;
     }
 
     public MailRuNewEmailPage EnterNewEmailButton()
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
 
-        wait.Until(ExpectedConditions.ElementIsVisible(NewEmailButton));
-
-        webDriver.FindElement(NewEmailButton).Click();
+        wait.Until(ExpectedConditions.ElementIsVisible(NewEmailButton)).Click();
 
         return new MailRuNewEmailPage(webDriver);
     }

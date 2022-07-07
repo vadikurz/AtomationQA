@@ -41,6 +41,7 @@ public class YandexMailBoxPage
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
         wait.Until(ExpectedConditions.ElementIsVisible(messageContainer));
+        
         var div = webDriver
             .FindElement(messageContainer)
             .FindElements(By.TagName("div"))
@@ -64,20 +65,19 @@ public class YandexMailBoxPage
         EnterNewEmailButton();
         
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
-        wait.Until(ExpectedConditions.ElementIsVisible(recipientInput));
         
-        webDriver.FindElement(recipientInput).SendKeys(recipient);
+        wait.Until(ExpectedConditions.ElementIsVisible(recipientInput)).SendKeys(recipient);
+        
         webDriver.FindElement(textInput).SendKeys(message);
-        
         webDriver.FindElement(sendButton).Click();
+        
         wait.Until(ExpectedConditions.ElementIsVisible(messageDoneScreen));
     }
 
     private void EnterNewEmailButton()
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
-        wait.Until(ExpectedConditions.ElementIsVisible(newEmailButton));
         
-        webDriver.FindElement(newEmailButton).Click();
+        wait.Until(ExpectedConditions.ElementIsVisible(newEmailButton)).Click();
     }
 }

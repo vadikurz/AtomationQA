@@ -23,9 +23,8 @@ public class MailRuNewEmailPage
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
 
-        wait.Until(ExpectedConditions.ElementIsVisible(recipientInput));
-
-        webDriver.FindElement(recipientInput).SendKeys(recipient);
+        wait.Until(ExpectedConditions.ElementIsVisible(recipientInput)).SendKeys(recipient);
+        
         webDriver.FindElement(textInput).SendKeys(text);
         webDriver.FindElement(sendButton).Click();
         
@@ -38,8 +37,6 @@ public class MailRuNewEmailPage
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
 
-        wait.Until(ExpectedConditions.ElementIsVisible(closeUndoWindowButton));
-        
-        webDriver.FindElement(closeUndoWindowButton).Click();
+        wait.Until(ExpectedConditions.ElementIsVisible(closeUndoWindowButton)).Click();
     }
 }

@@ -24,21 +24,20 @@ public class MailRuAuthorizationPage
 
     public MailRuMailBoxPage Login(string login, string password)
     {
-        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
-
-        EnterLogin(login, wait);
-        EnterPassword(password, wait);
+        EnterLogin(login);
+        EnterPassword(password);
 
         return new MailRuMailBoxPage(webDriver);
     }
 
-    private void EnterLogin(string login, WebDriverWait wait)
+    private void EnterLogin(string login)
     {
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
+        
         webDriver.SwitchTo().Frame(webDriver.FindElement(loginFormFrame));
 
-        wait.Until(ExpectedConditions.ElementIsVisible(loginInput));
+        wait.Until(ExpectedConditions.ElementIsVisible(loginInput)).SendKeys(login);
 
-        webDriver.FindElement(loginInput).SendKeys(login);
         webDriver.FindElement(continueButon).Click();
 
         if (CheckPresenceInvalidCredentialsMessage())
@@ -47,11 +46,12 @@ public class MailRuAuthorizationPage
         }
     }
 
-    private void EnterPassword(string password, WebDriverWait wait)
+    private void EnterPassword(string password)
     {
-        wait.Until(ExpectedConditions.ElementIsVisible(passwordInput));
-
-        webDriver.FindElement(passwordInput).SendKeys(password);
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
+        
+        wait.Until(ExpectedConditions.ElementIsVisible(passwordInput)).SendKeys(password);
+        
         webDriver.FindElement(submitButton).Click();
 
         if (CheckPresenceInvalidCredentialsMessage())
@@ -63,9 +63,11 @@ public class MailRuAuthorizationPage
     private bool CheckPresenceInvalidCredentialsMessage()
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
+        
         try
         {
             wait.Until(ExpectedConditions.ElementIsVisible(invalidCredentialsMessageElement));
+            
             return true;
         }
         catch (WebDriverTimeoutException)
