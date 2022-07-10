@@ -40,8 +40,7 @@ public class YandexMailBoxPage
             .FirstOrDefault(message => ContainsTitleWithSender(message.FindElements(By.TagName("span")), sender) &&
                               ContainsClassIsActive(message.FindElements(By.TagName("span"))));
     }
-
-
+    
     private IWebElement FindNewMessageBySender(string sender)
     {
         var foundMessage = FindNewMessagesInBatchBySender(sender);
@@ -62,17 +61,12 @@ public class YandexMailBoxPage
         webDriver.FindElement(loadMoreMessagesButton).Click();
     }
 
-    public string MessageText()
+    private string GetMessageText()
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
         wait.Until(ExpectedConditions.ElementIsVisible(messageContainer));
 
-        var div = webDriver
-            .FindElement(messageContainer)
-            .FindElements(By.TagName("div"))
-            .First(div => !div.Text.Contains("&nbsp"));
-
-        return div.Text == String.Empty ? div.FindElement(By.TagName("span")).Text : div.Text;
+        return FindTagContainsMessageText();
     }
 
     public string ReadMessage(string sender)
@@ -82,7 +76,7 @@ public class YandexMailBoxPage
 
         wait.Until(ExpectedConditions.ElementToBeClickable(FindNewMessageBySender(sender))).Click();
 
-        return MessageText();
+        return GetMessageText();
     }
 
     public void SendEmail(string recipient, string message)
@@ -113,4 +107,18 @@ public class YandexMailBoxPage
     private bool ContainsClassIsActive(ReadOnlyCollection<IWebElement> elements) =>
         elements.Select(span => span.GetAttribute("class"))
             .Any(@class => @class.Contains("is-active"));
+
+    private IWebElement GetDivWithoutEmptyString(IWebElement element)
+    {
+        return element.FindElements(By.TagName("div"))
+            .First(div => !div.Text.Contains("&nbsp"));
+    }
+
+    private string FindTagContainsMessageText()
+    {
+        var div = GetDivWithoutEmptyString(webDriver
+            .FindElement(messageContainer));
+        
+        return div.Text == String.Empty ? div.FindElement(By.TagName("span")).Text : div.Text;
+    }
 }
