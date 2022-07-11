@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
@@ -22,7 +23,12 @@ public class YandexMailBoxPage
     private readonly By sendButton = By.XPath("//div[contains(@class,'ComposeSendButton')]/button");
     private readonly By messageDoneScreen = By.XPath("//div[@class = 'ComposeDoneScreen-Wrapper']");
     private readonly By loadMoreMessagesButton = By.XPath("//button[contains(@class, 'message-load-more')]");
-
+    private readonly By searchInput = By.XPath("//input[@placeholder = 'Поиск']");
+    private readonly By advancedSearchButton = By.XPath("//button[@title = 'расширенный поиск']");
+    private readonly By fromWhomButton = By.XPath("//span[text() = 'От кого']//ancestor::button");
+    private readonly By fromWhomInput = By.XPath("//span[contains(@class,'input_theme_websearch')]/input");
+    private readonly By searchInfo = By.XPath("//span[@class = 'mail-MessagesSearchInfo-Title']");
+    
     private const int BatchSize = 30;
 
     static volatile int clickLoadMoreMessagesButtonCount;
@@ -30,6 +36,25 @@ public class YandexMailBoxPage
     public YandexMailBoxPage(IWebDriver webDriver)
     {
         this.webDriver = webDriver;
+    }
+    
+    private IWebElement FindNewMessageBySenderViaSearch(string sender)
+    {
+        var actions = new Actions(webDriver);
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+        
+        webDriver.FindElement(searchInput).Click();
+        actions.MoveToElement(webDriver.FindElement(advancedSearchButton)).Perform();
+        actions.Click(webDriver.FindElement(advancedSearchButton)).Perform();
+
+        wait.Until(ExpectedConditions.ElementToBeClickable(fromWhomButton)).Click();
+        wait.Until(ExpectedConditions.ElementToBeClickable(fromWhomInput)).Click();
+        webDriver.FindElement(fromWhomInput).SendKeys(sender);
+        webDriver.FindElement(fromWhomInput).SendKeys(Keys.Enter);
+        
+        wait.Until(ExpectedConditions.ElementIsVisible(searchInfo));
+
+        return webDriver.FindElements(messages).First();
     }
 
     private IWebElement? FindNewMessagesInBatchBySender(string sender)
@@ -74,7 +99,7 @@ public class YandexMailBoxPage
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(30));
         wait.Until(ExpectedConditions.ElementIsVisible(allMessages));
 
-        wait.Until(ExpectedConditions.ElementToBeClickable(FindNewMessageBySender(sender))).Click();
+        wait.Until(ExpectedConditions.ElementToBeClickable(FindNewMessageBySenderViaSearch(sender))).Click();
 
         return GetMessageText();
     }
