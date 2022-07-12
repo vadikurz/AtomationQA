@@ -29,7 +29,7 @@ public class YandexMailBoxPage
     private readonly By fromWhomInput = By.XPath("//span[contains(@class,'input_theme_websearch')]/input");
     private readonly By searchInfo = By.XPath("//span[@class = 'mail-MessagesSearchInfo-Title']");
     
-    private const int BatchSize = 30;
+    private const int MessageBatchSize = 30;
 
     static volatile int clickLoadMoreMessagesButtonCount;
 
@@ -61,7 +61,7 @@ public class YandexMailBoxPage
     {
         return webDriver
             .FindElements(messages)
-            .Skip(BatchSize * clickLoadMoreMessagesButtonCount)
+            .Skip(MessageBatchSize * clickLoadMoreMessagesButtonCount)
             .FirstOrDefault(message => ContainsTitleWithSender(message.FindElements(By.TagName("span")), sender) &&
                               ContainsClassIsActive(message.FindElements(By.TagName("span"))));
     }
@@ -99,7 +99,9 @@ public class YandexMailBoxPage
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(30));
         wait.Until(ExpectedConditions.ElementIsVisible(allMessages));
 
-        wait.Until(ExpectedConditions.ElementToBeClickable(FindNewMessageBySenderViaSearch(sender))).Click();
+        var message = FindNewMessageBySenderViaSearch(sender);
+
+        wait.Until(ExpectedConditions.ElementToBeClickable(message)).Click();
 
         return GetMessageText();
     }
