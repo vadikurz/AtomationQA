@@ -24,13 +24,10 @@ public class MailRuAuthorizationPage
 
     public MailRuMailBoxPage Login(string login, string password)
     {
-        EnterLogin(login);
-        EnterPassword(password);
-
-        return new MailRuMailBoxPage(webDriver);
+        return EnterLogin(login).EnterPassword(password);
     }
 
-    private void EnterLogin(string login)
+    private MailRuAuthorizationPage EnterLogin(string login)
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
         
@@ -44,9 +41,11 @@ public class MailRuAuthorizationPage
         {
             throw new InvalidUserLoginException("Invalid login");
         }
+
+        return this;
     }
 
-    private void EnterPassword(string password)
+    private MailRuMailBoxPage EnterPassword(string password)
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
         
@@ -58,6 +57,8 @@ public class MailRuAuthorizationPage
         {
             throw new InvalidUserPasswordException("Invalid password");
         }
+
+        return new MailRuMailBoxPage(webDriver);
     }
 
     private bool CheckPresenceInvalidCredentialsMessage()
