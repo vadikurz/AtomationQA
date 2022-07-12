@@ -53,8 +53,8 @@ public class YandexMailBoxPage
         webDriver.FindElement(fromWhomInput).SendKeys(Keys.Enter);
         
         wait.Until(ExpectedConditions.ElementIsVisible(searchInfo));
-
-        return webDriver.FindElements(messages).First();
+        
+        return WaitForMessageAppearing(messages);
     }
 
     private IWebElement? FindNewMessagesInBatchBySender(string sender)
@@ -123,6 +123,21 @@ public class YandexMailBoxPage
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
 
         wait.Until(ExpectedConditions.ElementIsVisible(newEmailButton)).Click();
+    }
+    
+    private IWebElement WaitForMessageAppearing(By messageLocator)
+    {
+        var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+        var message = webDriver.FindElements(messageLocator).FirstOrDefault();
+        while (message is null || !ContainsClassIsActive(message.FindElements(By.TagName("span"))))
+        {
+            Thread.Sleep(5000);
+            webDriver.Navigate().Refresh();
+            wait.Until(ExpectedConditions.ElementIsVisible(messages));
+            message = webDriver.FindElements(messages).FirstOrDefault();
+        }
+
+        return message;
     }
 
     private bool ContainsTitleWithSender(ReadOnlyCollection<IWebElement> elements, string sender) =>
