@@ -27,7 +27,7 @@ public class MailRuMailBoxPage
         this.webDriver = webDriver;
     }
 
-    public string UserLogin()
+    public string GetUserLogin()
     {
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
 
