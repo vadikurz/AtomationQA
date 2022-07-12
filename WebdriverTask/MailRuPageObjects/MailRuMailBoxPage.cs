@@ -16,7 +16,7 @@ public class MailRuMailBoxPage
     private readonly By searchButton = By.XPath("//div[@class = 'search-panel__right-col']");
     private readonly By searchInput = By.XPath("//input[contains(@class,'mail-operands')]");
     private readonly By findButton = By.XPath("//span[text() = 'Найти']");
-    private readonly By messageText = By.XPath("//div[contains(@class,'js-readmsg')]//div[@class]/div");
+    private readonly By messageTextlocator = By.XPath("//div[contains(@class,'js-readmsg')]//div[@class]/div");
     private readonly By personalDataButton = By.XPath("//div[text()='Личные данные']");
     private readonly By nickNameInput = By.XPath("//input[@id = 'nickname']");
     private readonly By saveButton = By.XPath("//button[@data-test-id = 'save-button']");
@@ -64,7 +64,9 @@ public class MailRuMailBoxPage
         
         var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(7));
         
-        return wait.Until(ExpectedConditions.ElementIsVisible(messageText)).Text;
+        var messageText = wait.Until(ExpectedConditions.ElementIsVisible(messageTextlocator)).Text;
+
+        return messageText;
     }
 
     public void RenameUser(string newUserFirstName)
