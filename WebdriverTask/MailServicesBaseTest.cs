@@ -3,7 +3,7 @@ using OpenQA.Selenium.Chrome;
 
 namespace WebdriverTask;
 
-public class MailRuBaseTest : BaseTest
+public class MailServicesBaseTest : BaseTest
 {
     [SetUp]
     protected void DoBeforeEach()
