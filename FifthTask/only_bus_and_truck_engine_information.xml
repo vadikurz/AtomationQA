@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ArrayOfEngineSerializationModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EngineSerializationModel>
+    <Power>155</Power>
+    <Type>Electric</Type>
+    <SerialNumber>v21r332502</SerialNumber>
+  </EngineSerializationModel>
+  <EngineSerializationModel>
+    <Power>200</Power>
+    <Type>Electric</Type>
+    <SerialNumber>dr3407tye</SerialNumber>
+  </EngineSerializationModel>
+</ArrayOfEngineSerializationModel>
